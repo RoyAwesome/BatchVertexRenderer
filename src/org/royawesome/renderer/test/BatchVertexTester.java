@@ -1,13 +1,18 @@
 package org.royawesome.renderer.test;
+import java.io.FileNotFoundException;
+
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.royawesome.renderer.BatchVertexRenderer;
-import org.royawesome.renderer.GL11BatchVertexRenderer;
+import org.royawesome.renderer.*;
+import org.royawesome.renderer.shader.Shader;
 
 
 public class BatchVertexTester {
+	
+	static boolean GL30mode = true;
+	
 	public void start() {
         try {
 	    Display.setDisplayMode(new DisplayMode(800,600));
@@ -18,7 +23,15 @@ public class BatchVertexTester {
 	}
 
 	// init OpenGL here
-	BatchVertexRenderer renderer = new GL11BatchVertexRenderer(GL11.GL_TRIANGLES);
+    
+	BatchVertexRenderer renderer = (GL30mode)? new GL30BatchVertexRenderer(GL11.GL_TRIANGLES) : new GL11BatchVertexRenderer(GL11.GL_TRIANGLES);
+	try {
+		renderer.setShader(new Shader("vtest.glsl", "ftest.glsl"));
+	} catch (FileNotFoundException e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+		System.exit(1);
+	}
 	renderer.enableColors();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);

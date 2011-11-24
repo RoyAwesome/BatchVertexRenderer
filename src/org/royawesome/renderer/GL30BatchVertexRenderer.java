@@ -1,6 +1,7 @@
 package org.royawesome.renderer;
 import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexBufferObject;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL30;
@@ -45,7 +46,8 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		GL30.glBindVertexArray(vao);
 		ARBVertexBufferObject.glBindBufferARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vbo);
 		
-		FloatBuffer vBuffer = FloatBuffer.wrap(this.buffer.toArray());
+		FloatBuffer vBuffer =  BufferUtils.createFloatBuffer(buffer.size());
+		vBuffer.put(buffer.toArray());
 		
 		ARBVertexBufferObject.glBufferDataARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vBuffer, ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
 		

@@ -18,7 +18,7 @@ import org.royawesome.renderer.shader.variables.*;
 public class Shader {
 	int program;
 	
-	HashMap<String, ShaderVariable> variables;
+	HashMap<String, ShaderVariable> variables = new HashMap<String, ShaderVariable>();
 	
 	public Shader(String vertexShader, String fragmentShader) throws FileNotFoundException{
 		//Create a new Shader object on the GPU
@@ -104,7 +104,7 @@ public class Shader {
 		StringBuilder src = new StringBuilder();
 		
 		while(scan.hasNextLine()){
-			src.append(scan.nextLine());
+			src.append(scan.nextLine() + "\n");
 		}
 		
 		return src.toString();
