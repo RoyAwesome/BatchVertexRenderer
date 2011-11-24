@@ -35,13 +35,13 @@ public class BatchVertexTester {
 	renderer.enableColors();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
-		renderer.AddVertex(-.5f, -.5f, 0.0f);
+		renderer.AddVertex(-.5f, -.5f, 1.0f);
 		renderer.AddColor(0.0f, 1.0f, 0.0f);
-		renderer.AddVertex(-0.5f, 0.5f, 0.0f);
+		renderer.AddVertex(-0.5f, 0.5f, 1.0f);
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
-		renderer.AddVertex(0.5f, 0.5f, 0.0f);
+		renderer.AddVertex(0.5f, 0.5f, 1.0f);
 		renderer.AddColor(1.0f, 1.0f, 1.0f);
-		renderer.AddVertex(0.5f, -0.5f, 0.0f);
+		renderer.AddVertex(0.5f, -0.5f, 1.0f);
 	renderer.end();
 	GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	while (!Display.isCloseRequested()) {

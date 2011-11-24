@@ -10,8 +10,7 @@ import gnu.trove.list.array.*;
 
 public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	int vao;
-	int vbo;
-	IntBuffer intvbo;
+	IntBuffer vbos;
 
 	
 	//Using FloatArrayList because I need O(1) access time
@@ -37,35 +36,36 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	
 	protected void flush(){
 		
+		if(vbos != null) GL15.glDeleteBuffers(vbos);
 		
 		GL30.glBindVertexArray(vao);
 		int buffers = 1;
 		if(useColors) buffers++;
-		intvbo = BufferUtils.createIntBuffer(buffers);
-		GL15.glGenBuffers(intvbo);
+		vbos = BufferUtils.createIntBuffer(buffers);
+		GL15.glGenBuffers(vbos);
 		
 		buffers = 0;
 		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, intvbo.get(buffers));
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 		
 		FloatBuffer vBuffer =  BufferUtils.createFloatBuffer(vertexBuffer.size());
 		vBuffer.put(vertexBuffer.toArray());
 		vBuffer.flip();
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 		
-		activeShader.enableAttribute("vPosition", 3, GL11.GL_FLOAT, 0);
+		activeShader.enableAttribute("vPosition", 4, GL11.GL_FLOAT, 0);
 		
 		if(useColors){
 			buffers++;
 			
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, intvbo.get(buffers));
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 			
 			vBuffer =  BufferUtils.createFloatBuffer(colorBuffer.size());
 			vBuffer.put(colorBuffer.toArray());
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
-			activeShader.enableAttribute("vColor", 3, GL11.GL_FLOAT, vertexBuffer.size());
+			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT, 0);
 		}
 			
 		
@@ -83,7 +83,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		checkRender();
 		GL30.glBindVertexArray(vao);
 		activeShader.assign();
-		GL11.glDrawArrays(renderMode, 0, vertexBuffer.size());
+		GL11.glDrawArrays(renderMode, 0, vertexBuffer.size() / 4);
 		
 	}
 	
