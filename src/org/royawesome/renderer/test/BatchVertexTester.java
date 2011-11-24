@@ -11,7 +11,7 @@ import org.royawesome.renderer.shader.Shader;
 
 public class BatchVertexTester {
 	
-	static boolean GL30mode = false;
+	static boolean GL30mode = true;
 	
 	public void start() {
         try {
