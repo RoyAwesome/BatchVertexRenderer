@@ -15,9 +15,9 @@ public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 
 	protected void flush(){
 		super.flush();
-		if( vertexBuffer.size() % 4 != 0) throw new IllegalStateException("Vertex Stride Mismatch (How did this happen?)");
+		if( vertexBuffer.size() % 4 != 0) throw new IllegalStateException("Vertex Size Mismatch (How did this happen?)");
 		if( useColors){
-			if(colorBuffer.size() % 4 != 0) throw new IllegalStateException("Color Stride Mismatch (colorBuffer size should be divisible by 3)");
+			if(colorBuffer.size() % 4 != 0) throw new IllegalStateException("Color Size Mismatch (How did this happen?)");
 			if(vertexBuffer.size() != colorBuffer.size()) throw new IllegalStateException("Vertex Buffer Size and Color Buffer Size do not match");
 			
 		}
