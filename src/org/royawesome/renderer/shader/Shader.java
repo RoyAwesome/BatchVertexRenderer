@@ -69,7 +69,12 @@ public class Shader {
 		variables.put(name, new Mat4ShaderVariable(program, name, value));
 	}
 	
+	public void enableAttribute(String name, int size, int type, long offset){
+		variables.put(name, new AttributeShaderVariable(program, name, size, type, offset));
+	}
+	
 	public void assign(){
+		GL20.glUseProgram(program);
 		for(ShaderVariable v : variables.values()){
 			v.assign();
 		}

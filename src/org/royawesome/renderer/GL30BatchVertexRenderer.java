@@ -9,7 +9,7 @@ import gnu.trove.list.array.*;
 
 public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	int vao;
-	int vertexBuffer;
+	int vbo;
 	
 
 	
@@ -29,24 +29,31 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		vao = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vao);
 		
-		vertexBuffer = ARBVertexBufferObject.glGenBuffersARB();
+		vbo = ARBVertexBufferObject.glGenBuffersARB();
 		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		
-		ARBVertexBufferObject.glBindBufferARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vertexBuffer);
-		
-	
 	}
 	
 
 	
 	protected void flush(){
 		
+		buffer.clear();
+		buffer.addAll(vertexBuffer);
+		if(useColors) buffer.addAll(colorBuffer);
+		
 		GL30.glBindVertexArray(vao);
-		ARBVertexBufferObject.glBindBufferARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vertexBuffer);
+		ARBVertexBufferObject.glBindBufferARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vbo);
 		
-		FloatBuffer vertexBuffer = FloatBuffer.wrap(this.buffer.toArray());
+		FloatBuffer vBuffer = FloatBuffer.wrap(this.buffer.toArray());
 		
-		ARBVertexBufferObject.glBufferDataARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vertexBuffer, ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
+		ARBVertexBufferObject.glBufferDataARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vBuffer, ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
+		
+		
+		activeShader.enableAttribute("vPosition", 3, GL11.GL_FLOAT, 0);
+		if(useColors) activeShader.enableAttribute("vColor", 3, GL11.GL_FLOAT, vertexBuffer.size());
+		
+		activeShader.assign();
 		
 		super.flush();
 		
@@ -57,7 +64,9 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	 */
 	public void render(){
 		checkRender();
-		
+		GL30.glBindVertexArray(vao);
+		activeShader.assign();
+		GL11.glDrawArrays(renderMode, 0, vertexBuffer.size());
 		
 	}
 	

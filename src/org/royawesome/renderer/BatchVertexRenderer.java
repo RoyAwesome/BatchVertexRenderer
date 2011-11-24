@@ -1,6 +1,7 @@
 package org.royawesome.renderer;
 import gnu.trove.list.array.TFloatArrayList;
 import org.lwjgl.util.vector.Vector3f;
+import org.royawesome.renderer.shader.Shader;
 
 /**
  * 
@@ -23,6 +24,7 @@ public abstract class BatchVertexRenderer {
 	
 	boolean useColors = false;
 	
+	Shader activeShader = null;
 	
 	public BatchVertexRenderer(int mode){
 		renderMode = mode;
@@ -78,6 +80,10 @@ public abstract class BatchVertexRenderer {
 		colorBuffer.add(r);
 		colorBuffer.add(g);
 		colorBuffer.add(b);
+	}
+	
+	public void setShader(Shader shader){
+		activeShader = shader;
 	}
 	
 	public void enableColors(){
