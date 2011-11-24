@@ -4,6 +4,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.ARBVertexBufferObject;
 import org.lwjgl.opengl.GL11;
+import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL30;
 
 import gnu.trove.list.array.*;
@@ -30,8 +31,8 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		vao = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vao);
 		
-		vbo = ARBVertexBufferObject.glGenBuffersARB();
-		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+		vbo = GL15.glGenBuffers();
+		//GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		
 	}
 	
@@ -44,12 +45,12 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		if(useColors) buffer.addAll(colorBuffer);
 		
 		GL30.glBindVertexArray(vao);
-		ARBVertexBufferObject.glBindBufferARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vbo);
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbo);
 		
 		FloatBuffer vBuffer =  BufferUtils.createFloatBuffer(buffer.size());
 		vBuffer.put(buffer.toArray());
 		
-		ARBVertexBufferObject.glBufferDataARB(ARBVertexBufferObject.GL_ARRAY_BUFFER_ARB, vBuffer, ARBVertexBufferObject.GL_STATIC_DRAW_ARB);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 		
 		
 		activeShader.enableAttribute("vPosition", 3, GL11.GL_FLOAT, 0);
