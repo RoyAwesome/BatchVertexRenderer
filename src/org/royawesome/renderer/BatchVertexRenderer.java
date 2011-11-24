@@ -70,6 +70,7 @@ public abstract class BatchVertexRenderer {
 		vertexBuffer.add(x);
 		vertexBuffer.add(y);
 		vertexBuffer.add(z);
+		vertexBuffer.add(1.0f);
 	}
 	
 	public void AddVertex(Vector3f vertex){
@@ -80,6 +81,7 @@ public abstract class BatchVertexRenderer {
 		colorBuffer.add(r);
 		colorBuffer.add(g);
 		colorBuffer.add(b);
+		colorBuffer.add(1.0f);
 	}
 	
 	public void setShader(Shader shader){

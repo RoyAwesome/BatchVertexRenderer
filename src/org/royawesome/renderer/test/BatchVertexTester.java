@@ -24,7 +24,7 @@ public class BatchVertexTester {
 
 	// init OpenGL here
     
-	BatchVertexRenderer renderer = (GL30mode)? new GL30BatchVertexRenderer(GL11.GL_TRIANGLES) : new GL11BatchVertexRenderer(GL11.GL_TRIANGLES);
+	BatchVertexRenderer renderer = (GL30mode)? new GL30BatchVertexRenderer(GL11.GL_POLYGON) : new GL11BatchVertexRenderer(GL11.GL_POLYGON);
 	try {
 		renderer.setShader(new Shader("vtest.glsl", "ftest.glsl"));
 	} catch (FileNotFoundException e) {
@@ -35,15 +35,17 @@ public class BatchVertexTester {
 	renderer.enableColors();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
-		renderer.AddVertex(.5f, .5f, 0.0f);
+		renderer.AddVertex(-.5f, -.5f, 0.0f);
 		renderer.AddColor(0.0f, 1.0f, 0.0f);
-		renderer.AddVertex(.2f, .8f, 0.0f);
+		renderer.AddVertex(-0.5f, 0.5f, 0.0f);
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
-		renderer.AddVertex(.8f, .8f, 0.0f);
+		renderer.AddVertex(0.5f, 0.5f, 0.0f);
+		renderer.AddColor(1.0f, 1.0f, 1.0f);
+		renderer.AddVertex(0.5f, -0.5f, 0.0f);
 	renderer.end();
-	
+	GL11.glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 	while (!Display.isCloseRequested()) {
-	
+		GL11.glClear(GL11.GL_COLOR_BUFFER_BIT);
 	    // render OpenGL here
 		renderer.render();
 				
