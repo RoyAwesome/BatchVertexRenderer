@@ -1,4 +1,4 @@
-package renderer.shader.variables;
+package org.royawesome.renderer.shader.variables;
 
 import java.nio.FloatBuffer;
 

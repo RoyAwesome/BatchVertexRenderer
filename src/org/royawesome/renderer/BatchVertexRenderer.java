@@ -1,10 +1,5 @@
-package renderer;
+package org.royawesome.renderer;
 import gnu.trove.list.array.TFloatArrayList;
-
-import java.nio.FloatBuffer;
-
-import org.lwjgl.opengl.ARBVertexBufferObject;
-import org.lwjgl.opengl.GL30;
 import org.lwjgl.util.vector.Vector3f;
 
 /**

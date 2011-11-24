@@ -1,4 +1,4 @@
-package renderer.shader;
+package org.royawesome.renderer.shader;
 
 import java.io.*;
 import java.util.HashMap;
@@ -7,8 +7,8 @@ import java.util.Scanner;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.*;
+import org.royawesome.renderer.shader.variables.*;
 
-import renderer.shader.variables.*;
 
 /**
  * Represents a Shader Object in OpenGL

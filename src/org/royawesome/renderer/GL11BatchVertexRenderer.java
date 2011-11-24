@@ -1,4 +1,4 @@
-package renderer;
+package org.royawesome.renderer;
 import org.lwjgl.opengl.*;
 
 public class GL11BatchVertexRenderer extends BatchVertexRenderer {

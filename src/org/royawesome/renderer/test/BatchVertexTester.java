@@ -1,8 +1,11 @@
-package renderer;
+package org.royawesome.renderer.test;
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
+import org.royawesome.renderer.BatchVertexRenderer;
+import org.royawesome.renderer.GL11BatchVertexRenderer;
+
 
 public class BatchVertexTester {
 	public void start() {
