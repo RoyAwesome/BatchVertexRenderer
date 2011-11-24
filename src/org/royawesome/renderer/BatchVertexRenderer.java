@@ -1,6 +1,9 @@
 package org.royawesome.renderer;
+import java.io.FileNotFoundException;
+
 import gnu.trove.list.array.TFloatArrayList;
-import org.lwjgl.util.vector.Vector3f;
+import org.lwjgl.util.vector.*;
+import org.royawesome.renderer.shader.EmptyShader;
 import org.royawesome.renderer.shader.Shader;
 
 /**
@@ -20,9 +23,11 @@ public abstract class BatchVertexRenderer {
 	//and fast ToArray()
 	TFloatArrayList vertexBuffer = new TFloatArrayList();
 	TFloatArrayList colorBuffer = new TFloatArrayList();
+	TFloatArrayList normalBuffer = new TFloatArrayList();
 	
 	
 	boolean useColors = false;
+	boolean useNormals = false;
 	
 	Shader activeShader = null;
 	
@@ -72,9 +77,28 @@ public abstract class BatchVertexRenderer {
 		vertexBuffer.add(z);
 		vertexBuffer.add(1.0f);
 	}
+	public void AddVertex(float x, float y, float z, float w){
+		vertexBuffer.add(x);
+		vertexBuffer.add(y);
+		vertexBuffer.add(z);
+		vertexBuffer.add(w);
+	}
+
+	public void AddVertex(float x, float y){
+		vertexBuffer.add(x);
+		vertexBuffer.add(y);
+		vertexBuffer.add(1.0f);
+		vertexBuffer.add(1.0f);
+	}
 	
 	public void AddVertex(Vector3f vertex){
 		AddVertex(vertex.x, vertex.y, vertex.z);
+	}
+	public void AddVertex(Vector2f vertex){
+		AddVertex(vertex.x, vertex.y);
+	}
+	public void AddVertex(Vector4f vertex){
+		AddVertex(vertex.x, vertex.y, vertex.z, vertex.w);
 	}
 	
 	public void AddColor(float r, float g, float b){
@@ -83,13 +107,62 @@ public abstract class BatchVertexRenderer {
 		colorBuffer.add(b);
 		colorBuffer.add(1.0f);
 	}
+	public void AddColor(float r, float g, float b, float a){
+		colorBuffer.add(r);
+		colorBuffer.add(g);
+		colorBuffer.add(b);
+		colorBuffer.add(a);
+	}
+	
+	public void AddNormal(float x, float y, float z){
+		normalBuffer.add(x);
+		normalBuffer.add(y);
+		normalBuffer.add(z);
+		normalBuffer.add(1.0f);
+	}
+	public void AddNormal(float x, float y, float z, float w){
+		normalBuffer.add(x);
+		normalBuffer.add(y);
+		normalBuffer.add(z);
+		normalBuffer.add(w);
+	}
+
+	public void AddNormal(float x, float y){
+		normalBuffer.add(x);
+		normalBuffer.add(y);
+		normalBuffer.add(1.0f);
+		normalBuffer.add(1.0f);
+	}
+	
+	public void AddNormal(Vector3f vertex){
+		AddVertex(vertex.x, vertex.y, vertex.z);
+	}
+	public void AddNormal(Vector2f vertex){
+		AddVertex(vertex.x, vertex.y);
+	}
+	public void AddNormal(Vector4f vertex){
+		AddVertex(vertex.x, vertex.y, vertex.z, vertex.w);
+	}
 	
 	public void setShader(Shader shader){
-		activeShader = shader;
+		if(shader == null){		
+			try {
+				activeShader = new EmptyShader();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		else activeShader = shader;
 	}
+	
 	
 	public void enableColors(){
 		useColors = true;
+	}
+	
+	public void enableNormals(){
+		useNormals = true;
 	}
 	
 }
