@@ -22,7 +22,7 @@ public class Shader {
 	
 	public Shader(String vertexShader, String fragmentShader) throws FileNotFoundException{
 		//If we are empty, just die.
-		if(vertexShader == null && fragmentShader == null ) return;
+		if(vertexShader == null || fragmentShader == null ) return;
 		//Create a new Shader object on the GPU
 		program = GL20.glCreateProgram();
 		
