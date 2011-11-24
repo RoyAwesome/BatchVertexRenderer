@@ -24,9 +24,10 @@ public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 			
 		GL11.glNewList(displayList, GL11.GL_COMPILE);
 		GL11.glBegin(renderMode);
-		for(int i = 0; i < vertexBuffer.size(); i+= 4){
-			if(useColors) GL11.glColor3f(colorBuffer.get(i), colorBuffer.get(i+1), colorBuffer.get(i+2));
-			GL11.glVertex3f(vertexBuffer.get(i), vertexBuffer.get(i+1), vertexBuffer.get(i+2));
+		for(int i = 0; i < vertexBuffer.size() / 4; i+= 1){
+			int index = i *4;
+			if(useColors) GL11.glColor3f(colorBuffer.get(index), colorBuffer.get(index+1), colorBuffer.get(index+2));
+			GL11.glVertex3f(vertexBuffer.get(index), vertexBuffer.get(index+1), vertexBuffer.get(index+2));
 		}
 		GL11.glEnd();
 		GL11.glEndList();
