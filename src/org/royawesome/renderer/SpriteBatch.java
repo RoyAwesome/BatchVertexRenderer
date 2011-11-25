@@ -28,7 +28,7 @@ public class SpriteBatch {
 	}
 
 	public void drawSprite(Rectangle2D.Float rect, Texture2D texture, int color){
-		
+		if(!isBatching) throw new IllegalStateException("Cannot Draw without Begin!");
 		
 		
 	}

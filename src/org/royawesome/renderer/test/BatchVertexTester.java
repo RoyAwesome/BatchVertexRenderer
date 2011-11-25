@@ -24,7 +24,7 @@ public class BatchVertexTester {
 
 	// init OpenGL here
     
-	BatchVertexRenderer renderer = (GL30mode)? new GL30BatchVertexRenderer(GL11.GL_TRIANGLES) : new GL11BatchVertexRenderer(GL11.GL_TRIANGLES);
+	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_TRIANGLES);
 	try {
 		renderer.setShader(new Shader("vtest.glsl", "ftest.glsl"));
 	} catch (FileNotFoundException e) {
