@@ -34,7 +34,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	
 
 	
-	protected void flush(){
+	protected void doFlush(){
 		
 		if(vbos != null) GL15.glDeleteBuffers(vbos);
 		
@@ -71,16 +71,13 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		
 		
 		activeShader.assign();
-		
-		super.flush();
-		
+				
 	}
 	
 	/**
 	 * Draws this batch
 	 */
-	public void render(){
-		checkRender();
+	public void doRender(){
 		GL30.glBindVertexArray(vao);
 		activeShader.assign();
 		GL11.glDrawArrays(renderMode, 0, vertexBuffer.size() / 4);

@@ -52,18 +52,48 @@ public abstract class BatchVertexRenderer {
 	public void end(){
 		if(!batching) throw new IllegalStateException("Not Batching!");
 		batching = false;
-		flush();
+		doFlush();
 	}
 	
-	protected void flush(){
+	/**
+	 * Flushes the contents of the cache to the GPU
+	 * 
+	 */
+	public final void flush(){
+		//Call the overriden flush
+		doFlush();
+		
+		//clean up after flush
+		postFlush();
+		
+	}
+	
+	protected abstract void doFlush();
+	
+	protected void postFlush(){
 		
 		flushed = true;
 	}
 	
 	/**
-	 * Draws this batch
+	 * The act of drawing.  The Batch will check if it's possible to render
+	 * as well as setup for rendering.  If it's possible to render, it will call doRender()
+	 * 
+	 *  
 	 */
-	public abstract void render();
+	protected abstract void doRender();
+	
+	
+	/**
+	 * Renders the batch. 
+	 */
+	public final void render(){
+		checkRender();
+		
+		doRender();
+		
+		
+	}
 	
 	protected void checkRender(){
 		if(batching) throw new IllegalStateException("Cannot Render While Batching");
