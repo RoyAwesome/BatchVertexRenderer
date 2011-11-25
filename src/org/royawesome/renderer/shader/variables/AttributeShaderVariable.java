@@ -1,6 +1,6 @@
 package org.royawesome.renderer.shader.variables;
 
-import org.lwjgl.opengl.GL11;
+
 import org.lwjgl.opengl.GL20;
 
 

@@ -49,6 +49,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 		
 		FloatBuffer vBuffer =  BufferUtils.createFloatBuffer(vertexBuffer.size());
+		vBuffer.clear();
 		vBuffer.put(vertexBuffer.toArray());
 		vBuffer.flip();
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
@@ -61,6 +62,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 			
 			vBuffer =  BufferUtils.createFloatBuffer(colorBuffer.size());
+			vBuffer.clear();
 			vBuffer.put(colorBuffer.toArray());
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);

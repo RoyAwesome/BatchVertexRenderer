@@ -1,10 +1,14 @@
 package org.royawesome.renderer;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
-import gnu.trove.list.array.TFloatArrayList;
+import gnu.trove.list.array.*;
+
+
 import org.lwjgl.util.vector.*;
 import org.royawesome.renderer.shader.EmptyShader;
 import org.royawesome.renderer.shader.Shader;
+import org.royawesome.util.Texture2D;
 
 /**
  * 
@@ -13,6 +17,15 @@ import org.royawesome.renderer.shader.Shader;
  */
 public abstract class BatchVertexRenderer {
 
+	public static BatchModes GLMode = BatchModes.GL30;
+	
+	public static BatchVertexRenderer constructNewBatch(int renderMode){
+		if(GLMode == BatchModes.GL11) return new GL11BatchVertexRenderer(renderMode);
+		if(GLMode == BatchModes.GL30) return new GL30BatchVertexRenderer(renderMode);
+		throw new IllegalStateException("GL Mode:" + GLMode + " Not reconized");
+	}
+	
+	
 	
 	boolean batching = false;
 	boolean flushed = false;
@@ -24,10 +37,15 @@ public abstract class BatchVertexRenderer {
 	TFloatArrayList vertexBuffer = new TFloatArrayList();
 	TFloatArrayList colorBuffer = new TFloatArrayList();
 	TFloatArrayList normalBuffer = new TFloatArrayList();
+	ArrayList<Texture2D> textureBuffer = new ArrayList<Texture2D>();
+	TFloatArrayList uvBuffer = new TFloatArrayList();
 	
+	
+	int numVerticies = 0;
 	
 	boolean useColors = false;
 	boolean useNormals = false;
+	boolean useTextures = false;
 	
 	Shader activeShader = null;
 	
@@ -44,7 +62,11 @@ public abstract class BatchVertexRenderer {
 		flushed = false;		
 		vertexBuffer.clear();
 		colorBuffer.clear();
+		normalBuffer.clear();
+		uvBuffer.clear();
+		textureBuffer.clear();
 		
+		numVerticies = 0;
 	}
 	/**
 	 * Ends batching and flushes cache to the GPU
@@ -52,7 +74,7 @@ public abstract class BatchVertexRenderer {
 	public void end(){
 		if(!batching) throw new IllegalStateException("Not Batching!");
 		batching = false;
-		doFlush();
+		flush();
 	}
 	
 	/**
@@ -60,6 +82,24 @@ public abstract class BatchVertexRenderer {
 	 * 
 	 */
 	public final void flush(){
+		if( vertexBuffer.size() % 4 != 0) throw new IllegalStateException("Vertex Size Mismatch (How did this happen?)");
+		if( useColors){
+			if(colorBuffer.size() % 4 != 0) throw new IllegalStateException("Color Size Mismatch (How did this happen?)");
+			if(colorBuffer.size() / 4 != numVerticies) throw new IllegalStateException("Color Buffer size does not match numVerticies");
+	
+		}
+		if(useNormals){
+			if(normalBuffer.size() % 4 != 0) throw new IllegalStateException("Normal Size Mismatch (How did this happen?)");
+			if(normalBuffer.size() / 4 != numVerticies) throw new IllegalStateException("Normal Buffer size does not match numVerticies");
+			
+		}
+		if(useTextures){
+			if(uvBuffer.size() % 2 != 0) throw new IllegalStateException("UV size Mismatch (How did this happen?)");
+			if(uvBuffer.size() / 2 != numVerticies) throw new IllegalStateException("UV Buffer size does not match numVerticies");
+			
+		}
+		
+		
 		//Call the overriden flush
 		doFlush();
 		
@@ -73,6 +113,7 @@ public abstract class BatchVertexRenderer {
 	protected void postFlush(){
 		
 		flushed = true;
+		
 	}
 	
 	/**
@@ -101,24 +142,20 @@ public abstract class BatchVertexRenderer {
 	}
 	
 	
-	public void AddVertex(float x, float y, float z){
-		vertexBuffer.add(x);
-		vertexBuffer.add(y);
-		vertexBuffer.add(z);
-		vertexBuffer.add(1.0f);
-	}
+
 	public void AddVertex(float x, float y, float z, float w){
 		vertexBuffer.add(x);
 		vertexBuffer.add(y);
 		vertexBuffer.add(z);
 		vertexBuffer.add(w);
+		
+		numVerticies++;
 	}
-
+	public void AddVertex(float x, float y, float z){
+		AddVertex(x,y,z,1.0f);
+	}
 	public void AddVertex(float x, float y){
-		vertexBuffer.add(x);
-		vertexBuffer.add(y);
-		vertexBuffer.add(1.0f);
-		vertexBuffer.add(1.0f);
+		AddVertex(x,y,1.0f,1.0f);
 	}
 	
 	public void AddVertex(Vector3f vertex){
@@ -132,10 +169,7 @@ public abstract class BatchVertexRenderer {
 	}
 	
 	public void AddColor(float r, float g, float b){
-		colorBuffer.add(r);
-		colorBuffer.add(g);
-		colorBuffer.add(b);
-		colorBuffer.add(1.0f);
+		AddColor(r,g,b,1.0f);
 	}
 	public void AddColor(float r, float g, float b, float a){
 		colorBuffer.add(r);
@@ -144,35 +178,28 @@ public abstract class BatchVertexRenderer {
 		colorBuffer.add(a);
 	}
 	
-	public void AddNormal(float x, float y, float z){
-		normalBuffer.add(x);
-		normalBuffer.add(y);
-		normalBuffer.add(z);
-		normalBuffer.add(1.0f);
-	}
 	public void AddNormal(float x, float y, float z, float w){
 		normalBuffer.add(x);
 		normalBuffer.add(y);
 		normalBuffer.add(z);
 		normalBuffer.add(w);
 	}
-
-	public void AddNormal(float x, float y){
-		normalBuffer.add(x);
-		normalBuffer.add(y);
-		normalBuffer.add(1.0f);
-		normalBuffer.add(1.0f);
+	public void AddNormal(float x, float y, float z){
+		AddNormal(x,y,z,1.0f);
 	}
-	
+
 	public void AddNormal(Vector3f vertex){
 		AddVertex(vertex.x, vertex.y, vertex.z);
-	}
-	public void AddNormal(Vector2f vertex){
-		AddVertex(vertex.x, vertex.y);
 	}
 	public void AddNormal(Vector4f vertex){
 		AddVertex(vertex.x, vertex.y, vertex.z, vertex.w);
 	}
+	
+	public void AddTexCoord(float u, float v){
+		uvBuffer.add(u);
+		uvBuffer.add(v);
+	}
+	
 	
 	public void setShader(Shader shader){
 		if(shader == null){		
