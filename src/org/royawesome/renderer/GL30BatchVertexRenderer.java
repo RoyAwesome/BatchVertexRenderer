@@ -95,7 +95,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
-			activeShader.enableAttribute("vTexCoord", 4, GL11.GL_FLOAT, 0);
+			activeShader.enableAttribute("vTexCoord", 2, GL11.GL_FLOAT, 0);
 		}
 			
 		
