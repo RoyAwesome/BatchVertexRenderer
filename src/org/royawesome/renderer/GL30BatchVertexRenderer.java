@@ -41,6 +41,8 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		GL30.glBindVertexArray(vao);
 		int buffers = 1;
 		if(useColors) buffers++;
+		if(useNormals) buffers++;
+		if(useTextures) buffers++;
 		vbos = BufferUtils.createIntBuffer(buffers);
 		GL15.glGenBuffers(vbos);
 		
@@ -68,6 +70,32 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
 			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT, 0);
+		}
+		if(useNormals){
+			buffers++;
+			
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
+			
+			vBuffer =  BufferUtils.createFloatBuffer(normalBuffer.size());
+			vBuffer.clear();
+			vBuffer.put(normalBuffer.toArray());
+			vBuffer.flip();
+			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+			
+			activeShader.enableAttribute("vNormal", 4, GL11.GL_FLOAT, 0);
+		}
+		if(useTextures){
+			buffers++;
+			
+			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
+			
+			vBuffer =  BufferUtils.createFloatBuffer(uvBuffer.size());
+			vBuffer.clear();
+			vBuffer.put(uvBuffer.toArray());
+			vBuffer.flip();
+			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+			
+			activeShader.enableAttribute("vTexCoord", 4, GL11.GL_FLOAT, 0);
 		}
 			
 		
