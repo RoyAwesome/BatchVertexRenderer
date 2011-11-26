@@ -6,9 +6,10 @@ import gnu.trove.list.array.*;
 
 
 import org.lwjgl.util.vector.*;
+import org.newdawn.slick.opengl.Texture;
 import org.royawesome.renderer.shader.EmptyShader;
 import org.royawesome.renderer.shader.Shader;
-import org.royawesome.util.Texture2D;
+
 
 /**
  * 
@@ -37,7 +38,7 @@ public abstract class BatchVertexRenderer {
 	TFloatArrayList vertexBuffer = new TFloatArrayList();
 	TFloatArrayList colorBuffer = new TFloatArrayList();
 	TFloatArrayList normalBuffer = new TFloatArrayList();
-	ArrayList<Texture2D> textureBuffer = new ArrayList<Texture2D>();
+	ArrayList<Texture> textureBuffer = new ArrayList<Texture>();
 	TFloatArrayList uvBuffer = new TFloatArrayList();
 	
 	

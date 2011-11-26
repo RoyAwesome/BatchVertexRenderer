@@ -3,7 +3,8 @@ package org.royawesome.renderer;
 import java.awt.geom.Rectangle2D;
 
 import org.lwjgl.opengl.GL11;
-import org.royawesome.util.Texture2D;
+import org.newdawn.slick.opengl.Texture;
+
 
 public class SpriteBatch {
 	
@@ -27,7 +28,7 @@ public class SpriteBatch {
 		renderer.render();
 	}
 
-	public void drawSprite(Rectangle2D.Float rect, Texture2D texture, int color){
+	public void drawSprite(Rectangle2D.Float rect, Texture texture, int color){
 		if(!isBatching) throw new IllegalStateException("Cannot Draw without Begin!");
 		
 		

@@ -16,5 +16,6 @@
 	<classpathentry kind="lib" path="C:/Users/Kylegar/workspace/lwjgl-2.8.2/jar/lwjgl-debug.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Kylegar/workspace/lwjgl-2.8.2/jar/lzma.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Kylegar/workspace/trove-3.0.2.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Kylegar/workspace/slick.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
