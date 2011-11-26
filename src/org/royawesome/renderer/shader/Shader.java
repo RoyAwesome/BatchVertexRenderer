@@ -7,6 +7,7 @@ import java.util.Scanner;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.*;
+import org.newdawn.slick.opengl.Texture;
 import org.royawesome.renderer.shader.variables.*;
 
 
@@ -17,8 +18,10 @@ import org.royawesome.renderer.shader.variables.*;
  */
 public class Shader {
 	int program;
+	//int textures = 0;
 	
 	HashMap<String, ShaderVariable> variables = new HashMap<String, ShaderVariable>();
+	
 	
 	public Shader(String vertexShader, String fragmentShader) throws FileNotFoundException{
 		//If we are empty, just die.
@@ -69,6 +72,11 @@ public class Shader {
 	}
 	public void SetUniform(String name, Matrix4f value){
 		variables.put(name, new Mat4ShaderVariable(program, name, value));
+	}
+	public void SetUniform(String name, Texture value){
+
+		variables.put(name, new TextureSamplerShaderVariable(program, name, value));
+		
 	}
 	
 	public void enableAttribute(String name, int size, int type, long offset){
