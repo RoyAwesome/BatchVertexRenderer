@@ -18,7 +18,7 @@ import org.royawesome.renderer.shader.variables.*;
  */
 public class Shader {
 	int program;
-	//int textures = 0;
+	int textures = 0;
 	
 	HashMap<String, ShaderVariable> variables = new HashMap<String, ShaderVariable>();
 	
@@ -74,8 +74,15 @@ public class Shader {
 		variables.put(name, new Mat4ShaderVariable(program, name, value));
 	}
 	public void SetUniform(String name, Texture value){
-
-		variables.put(name, new TextureSamplerShaderVariable(program, name, value));
+		if(variables.containsKey(name)){
+			ShaderVariable texture = variables.get(name);
+			if(!(texture instanceof TextureSamplerShaderVariable)) throw new IllegalStateException(name + " is not a texture!");
+			TextureSamplerShaderVariable t = (TextureSamplerShaderVariable)texture;
+			t.set(value);
+		}else{
+			textures++;
+			variables.put(name, new TextureSamplerShaderVariable(program, name, value, textures));
+		}		
 		
 	}
 	
@@ -89,6 +96,10 @@ public class Shader {
 			v.assign();
 		}
 	}
+	
+	
+	
+	
 	
 	
 	private int compileShader(String file, int type) throws FileNotFoundException{

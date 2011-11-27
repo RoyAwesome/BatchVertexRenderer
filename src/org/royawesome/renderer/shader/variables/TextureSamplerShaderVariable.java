@@ -10,15 +10,20 @@ public class TextureSamplerShaderVariable extends ShaderVariable {
 	int textureNumber;
 	
 	
-	public TextureSamplerShaderVariable(int program, String name, Texture texture) {
+	public TextureSamplerShaderVariable(int program, String name, Texture texture, int bindNum) {
 		super(program, name);
 		textureID = texture.getTextureID();
-		this.textureNumber = 0;
+		this.textureNumber = bindNum;
+	}
+	
+	public void set(Texture texture){
+		textureID = texture.getTextureID();
 	}
 
 	@Override
 	public void assign() {
 		GL13.glActiveTexture(GL13.GL_TEXTURE0 + textureNumber);
+		GL11.glBindTexture(GL11.GL_TEXTURE_2D, textureID);
 		GL30.glUniform1ui(location, textureID);
 	}
 

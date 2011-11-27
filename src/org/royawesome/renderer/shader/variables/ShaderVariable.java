@@ -10,4 +10,5 @@ public abstract class ShaderVariable {
 		this.location = GL20.glGetUniformLocation(program, name);
 	}
 	public abstract void assign();
+	
 }
