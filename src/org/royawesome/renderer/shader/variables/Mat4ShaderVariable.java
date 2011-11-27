@@ -1,6 +1,7 @@
 package org.royawesome.renderer.shader.variables;
 import java.nio.FloatBuffer;
 
+import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL20;
 import org.lwjgl.util.vector.Matrix4f;
 
@@ -15,7 +16,7 @@ public class Mat4ShaderVariable extends ShaderVariable {
 
 	@Override
 	public void assign() {
-		FloatBuffer buff = FloatBuffer.allocate(4*4);
+		FloatBuffer buff = BufferUtils.createFloatBuffer(4*4);
 		value.load(buff);
 		buff.flip();
 		
