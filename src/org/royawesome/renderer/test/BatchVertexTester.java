@@ -29,7 +29,7 @@ public class BatchVertexTester {
 
 	// init OpenGL here
     
-	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_POLYGON);
+	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_TRIANGLES);
 	BasicShader shader = null;
 	try {
 		shader = new BasicShader();
@@ -44,11 +44,11 @@ public class BatchVertexTester {
 	renderer.enableColors();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
-		renderer.AddVertex(.3f, .5f);
-		renderer.AddColor(0.0f, 1.0f, 0.0f);
-		renderer.AddVertex(-.8f, -.5f);
-		renderer.AddColor(0.0f, 0.0f, 1.0f);
-		renderer.AddVertex(.2f, -.5f);
+		renderer.AddVertex(1.0f, 1.0f);
+		renderer.AddColor(1.0f, 1.0f, 0.0f);
+		renderer.AddVertex(-1.0f, 1.0f);
+		renderer.AddColor(0.0f,1.0f, 1.0f);
+		renderer.AddVertex(-1.0f, -1.0f);
 		
 	renderer.end();
 	

@@ -57,7 +57,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		vBuffer.flip();
 		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 		
-		activeShader.enableAttribute("vPosition", 4, GL11.GL_FLOAT, 0);
+		activeShader.enableAttribute("vPosition", 4, GL11.GL_FLOAT,0, 0);
 		
 		if(useColors){
 			buffers++;
@@ -70,7 +70,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
-			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT, 0);
+			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT,0, 0);
 		}
 		if(useNormals){
 			buffers++;
@@ -83,7 +83,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
-			activeShader.enableAttribute("vNormal", 4, GL11.GL_FLOAT, 0);
+			activeShader.enableAttribute("vNormal", 4, GL11.GL_FLOAT,4, 0);
 		}
 		if(useTextures){
 			buffers++;
@@ -96,7 +96,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 			vBuffer.flip();
 			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
 			
-			activeShader.enableAttribute("vTexCoord", 2, GL11.GL_FLOAT, 0);
+			activeShader.enableAttribute("vTexCoord", 2, GL11.GL_FLOAT,2, 0);
 		}
 			
 		

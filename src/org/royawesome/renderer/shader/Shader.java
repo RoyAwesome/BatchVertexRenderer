@@ -86,8 +86,8 @@ public class Shader {
 		
 	}
 	
-	public void enableAttribute(String name, int size, int type, long offset){
-		variables.put(name, new AttributeShaderVariable(program, name, size, type, offset));
+	public void enableAttribute(String name, int size, int type, int stride,  long offset){
+		variables.put(name, new AttributeShaderVariable(program, name, size, type,stride,  offset));
 	}
 	
 	public void assign(){

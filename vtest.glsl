@@ -6,7 +6,8 @@ uniform mat4 Projection;
 
 void main()
 {
-    gl_Position = Projection * vPosition;
+    //gl_Position = Projection * vPosition;
+	gl_Position = vPosition;
     color = vColor;
 }
  

@@ -10,7 +10,7 @@ public class AttributeShaderVariable extends ShaderVariable {
 	int type;
 	long offset;
 	
-	public AttributeShaderVariable(int program, String name, int size, int type, long offset) {
+	public AttributeShaderVariable(int program, String name, int size, int type, int stride, long offset) {
 		super(program, name);
 		this.location = GL20.glGetAttribLocation(program, name);
 		
