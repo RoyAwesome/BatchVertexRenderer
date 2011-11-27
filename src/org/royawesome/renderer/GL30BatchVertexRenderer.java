@@ -9,8 +9,11 @@ import org.lwjgl.opengl.GL30;
 import gnu.trove.list.array.*;
 
 public class GL30BatchVertexRenderer extends BatchVertexRenderer {
+	final int SIZE_FLOAT = 4;
+	
 	int vao;
-	IntBuffer vbos;
+	int vbos = -1;
+	
 
 	
 	//Using FloatArrayList because I need O(1) access time
@@ -37,66 +40,60 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	protected void doFlush(){
 		
 		if(activeShader == null) throw new IllegalStateException("Batch must have a shader attached");
-		if(vbos != null) GL15.glDeleteBuffers(vbos);
+		if(vbos != -1) GL15.glDeleteBuffers(vbos);
 		
 		GL30.glBindVertexArray(vao);
-		int buffers = 1;
-		if(useColors) buffers++;
-		if(useNormals) buffers++;
-		if(useTextures) buffers++;
-		vbos = BufferUtils.createIntBuffer(buffers);
-		GL15.glGenBuffers(vbos);
+		int size = numVerticies * 4 * SIZE_FLOAT;
+		if(useColors) size += numVerticies * 4 * SIZE_FLOAT;
+		if(useNormals) size += numVerticies * 4 * SIZE_FLOAT;
+		if(useTextures) size += numVerticies * 2 * SIZE_FLOAT;
 		
-		buffers = 0;
+		vbos = GL15.glGenBuffers();
 		
-		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
+		int offset = 0;
+		GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos);
+		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, size, GL15.GL_STATIC_DRAW);
 		
 		FloatBuffer vBuffer =  BufferUtils.createFloatBuffer(vertexBuffer.size());
 		vBuffer.clear();
 		vBuffer.put(vertexBuffer.toArray());
 		vBuffer.flip();
-		GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
-		
-		activeShader.enableAttribute("vPosition", 4, GL11.GL_FLOAT,0, 0);
-		
+		//GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+		GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, offset, vBuffer);
+		activeShader.enableAttribute("vPosition", 4, GL11.GL_FLOAT,0, offset);
+		offset += numVerticies * 4 * SIZE_FLOAT;
 		if(useColors){
-			buffers++;
-			
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 			
 			vBuffer =  BufferUtils.createFloatBuffer(colorBuffer.size());
 			vBuffer.clear();
 			vBuffer.put(colorBuffer.toArray());
 			vBuffer.flip();
-			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+			GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, offset, vBuffer);
 			
-			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT,0, 0);
+			activeShader.enableAttribute("vColor", 4, GL11.GL_FLOAT,0,offset);
+			offset += numVerticies * 4 * SIZE_FLOAT;
 		}
 		if(useNormals){
-			buffers++;
-			
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
-			
+		
 			vBuffer =  BufferUtils.createFloatBuffer(normalBuffer.size());
 			vBuffer.clear();
 			vBuffer.put(normalBuffer.toArray());
 			vBuffer.flip();
-			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+			GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, offset, vBuffer);
 			
-			activeShader.enableAttribute("vNormal", 4, GL11.GL_FLOAT,4, 0);
+			activeShader.enableAttribute("vNormal", 4, GL11.GL_FLOAT,0, offset);
+			offset += numVerticies * 4 * SIZE_FLOAT;
 		}
 		if(useTextures){
-			buffers++;
-			
-			GL15.glBindBuffer(GL15.GL_ARRAY_BUFFER, vbos.get(buffers));
 			
 			vBuffer =  BufferUtils.createFloatBuffer(uvBuffer.size());
 			vBuffer.clear();
 			vBuffer.put(uvBuffer.toArray());
 			vBuffer.flip();
-			GL15.glBufferData(GL15.GL_ARRAY_BUFFER, vBuffer, GL15.GL_STATIC_DRAW);
+			GL15.glBufferSubData(GL15.GL_ARRAY_BUFFER, offset, vBuffer);
 			
-			activeShader.enableAttribute("vTexCoord", 2, GL11.GL_FLOAT,2, 0);
+			activeShader.enableAttribute("vTexCoord", 2, GL11.GL_FLOAT,0, offset);
+			offset += numVerticies * 2 * SIZE_FLOAT;
 		}
 			
 		
