@@ -156,7 +156,7 @@ public abstract class BatchVertexRenderer {
 		AddVertex(x,y,z,1.0f);
 	}
 	public void AddVertex(float x, float y){
-		AddVertex(x,y,1.0f,1.0f);
+		AddVertex(x,y,0.0f,1.0f);
 	}
 	
 	public void AddVertex(Vector3f vertex){

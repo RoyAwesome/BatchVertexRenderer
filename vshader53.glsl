@@ -8,7 +8,7 @@ varying vec4 color;
 varying vec2 uv;
 
 
-uniform mat4 ModelView;
+uniform mat4 View;
 uniform mat4 Projection;
 
 

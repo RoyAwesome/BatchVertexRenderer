@@ -36,6 +36,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	
 	protected void doFlush(){
 		
+		if(activeShader == null) throw new IllegalStateException("Batch must have a shader attached");
 		if(vbos != null) GL15.glDeleteBuffers(vbos);
 		
 		GL30.glBindVertexArray(vao);
@@ -110,7 +111,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	public void doRender(){
 		GL30.glBindVertexArray(vao);
 		activeShader.assign();
-		GL11.glDrawArrays(renderMode, 0, vertexBuffer.size() / 4);
+		GL11.glDrawArrays(renderMode, 0, numVerticies);
 		
 	}
 	
