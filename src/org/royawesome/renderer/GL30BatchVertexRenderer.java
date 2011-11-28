@@ -29,8 +29,10 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	 */
 	public GL30BatchVertexRenderer(int renderMode){
 		super(renderMode);
+		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		vao = GL30.glGenVertexArrays();
 		GL30.glBindVertexArray(vao);
+		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
 		
 		
 	}
@@ -38,6 +40,7 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 
 	
 	protected void doFlush(){
+		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
 		
 		if(activeShader == null) throw new IllegalStateException("Batch must have a shader attached");
 		if(vbos != -1) GL15.glDeleteBuffers(vbos);
@@ -99,16 +102,23 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 		
 		
 		activeShader.assign();
-				
+		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+		
+		
 	}
 	
 	/**
 	 * Draws this batch
 	 */
 	public void doRender(){
+		GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
+		
 		GL30.glBindVertexArray(vao);
 		activeShader.assign();
 		GL11.glDrawArrays(renderMode, 0, numVerticies);
+		GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
+		
+		
 		
 	}
 	

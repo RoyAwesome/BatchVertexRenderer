@@ -32,21 +32,27 @@ public class Shader {
 		
 		//Compile the vertex shader
 		String vshader;
-		try{
-			vshader = readShaderSource(vertexShader);			
-		}
-		catch(FileNotFoundException e){
-			vshader = fallbackVertexShader;
+		if(vertexShader == null)  vshader = fallbackVertexShader;
+		else{
+			try{
+				vshader = readShaderSource(vertexShader);			
+			}
+			catch(FileNotFoundException e){
+				vshader = fallbackVertexShader;
+			}
 		}
 		int vShader = compileShader(vshader , GL20.GL_VERTEX_SHADER);
 		GL20.glAttachShader(program, vShader);
 		String fshader;
-		try{
-			fshader = readShaderSource(fragmentShader);			
-		}
-		catch(FileNotFoundException e){
-			fshader = fallbackFragmentShader;
-		}
+		if(fragmentShader == null) fshader = fallbackFragmentShader;
+		else{
+			try{
+				fshader = readShaderSource(fragmentShader);			
+			}
+			catch(FileNotFoundException e){
+				fshader = fallbackFragmentShader;
+			}
+		}	
 		
 		int fShader = compileShader(fshader, GL20.GL_FRAGMENT_SHADER);
 		GL20.glAttachShader(program, fShader);
@@ -147,24 +153,24 @@ public class Shader {
 		
 	}
 	
-	String fallbackVertexShader = "attribute vec4 vPosition;" +
-								  "attribute vec4 vColor;   //in" +
-								  "attribute vec2 vTexCoord; "+
-								  "varying vec4 color;   //out" +
-								  "varying vec2 uvcoord;" +
-								  "uniform mat4 Projection; "+
-								  "uniform mat4 View;" +
-								  "void main()" +
-								  "{    gl_Position = Projection * View *vPosition; " +
-								  "	uvcoord = vTexCoord;" +
-								  "color = vColor; "+
-								  "}";
+	String fallbackVertexShader = "attribute vec4 vPosition;\n" +
+								  "attribute vec4 vColor;   //in \n" +
+								  "attribute vec2 vTexCoord; \n"+
+								  "varying vec4 color;   //out \n" +
+								  "varying vec2 uvcoord; \n" +
+								  "uniform mat4 Projection; \n"+
+								  "uniform mat4 View; \n" +
+								  "void main() \n" +
+								  "{\n    gl_Position = Projection * View *vPosition; \n" +
+								  "	uvcoord = vTexCoord; \n" +
+								  "color = vColor; \n"+
+								  "} \n";
  
-	String fallbackFragmentShader = "varying vec4 color;  //in " +
-									"varying vec2 uvcoord;" +
-									"uniform sampler2D texture;" +
-									"void main(){" +
-									"gl_FragColor =  texture2D(texture, uvcoord);} ";
+	String fallbackFragmentShader = "varying vec4 color;  //in \n" +
+									"varying vec2 uvcoord; \n" +
+									"uniform sampler2D texture; \n" +
+									"void main()\n{\n" +
+									"gl_FragColor =  texture2D(texture, uvcoord); \n} \n";
 
 	
 }

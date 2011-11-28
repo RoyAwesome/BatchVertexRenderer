@@ -8,8 +8,8 @@ public class BasicShader extends Shader {
 	
 	
 	
-	public BasicShader() throws FileNotFoundException {
-		super("vtest.glsl", "ftest.glsl");
+	public BasicShader() {
+		super(null, null);
 		
 	}
 	

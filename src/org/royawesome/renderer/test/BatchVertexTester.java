@@ -38,14 +38,8 @@ public class BatchVertexTester {
 		e1.printStackTrace();
 	};
 	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_POLYGON);
-	BasicShader shader = null;
-	try {
-		shader = new BasicShader();
-	} catch (FileNotFoundException e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-		System.exit(1);
-	}
+	BasicShader shader = new BasicShader();
+	
 	shader.setProjectionMatrix(MatrixUtils.createOrthographic(1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 1.0f));
 	shader.setViewMatrix(new Matrix4f());
 	shader.SetUniform("texture", tex);
