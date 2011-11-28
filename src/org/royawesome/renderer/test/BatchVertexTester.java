@@ -54,17 +54,17 @@ public class BatchVertexTester {
 	renderer.enableTextures();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
-		renderer.AddTexCoord(0.0f, 0.0f);
+		renderer.AddTexCoord(1.0f, 1.0f);
 		renderer.AddVertex(.5f, .5f);
 		
 		
 		renderer.AddColor(0.0f, 1.0f, 0.0f);
-		renderer.AddTexCoord(1.0f, 0.0f);
+		renderer.AddTexCoord(0.0f, 1.0f);
 		renderer.AddVertex(-.5f, .5f);
 		
 		
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
-		renderer.AddTexCoord(1.0f, 1.0f);
+		renderer.AddTexCoord(0.0f, 0.0f);
 		renderer.AddVertex(-.5f, -.5f);
 		
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
