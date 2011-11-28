@@ -7,11 +7,12 @@ varying vec4 color;   //out
 varying vec2 uvcoord;
 
 uniform mat4 Projection;
+uniform mat4 View;
 
 void main()
 {
 
-    gl_Position = Projection * vPosition;
+    gl_Position = Projection * View *vPosition;
 	//gl_Position = vPosition;
 	uvcoord = vTexCoord;
 	color = vColor;

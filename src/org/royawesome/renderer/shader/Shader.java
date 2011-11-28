@@ -23,17 +23,32 @@ public class Shader {
 	HashMap<String, ShaderVariable> variables = new HashMap<String, ShaderVariable>();
 	
 	
-	public Shader(String vertexShader, String fragmentShader) throws FileNotFoundException{
-		//If we are empty, just die.
-		if(vertexShader == null || fragmentShader == null ) return;
+	
+	public Shader(String vertexShader, String fragmentShader){
+
+		
 		//Create a new Shader object on the GPU
 		program = GL20.glCreateProgram();
 		
 		//Compile the vertex shader
-		int vShader = compileShader(vertexShader, GL20.GL_VERTEX_SHADER);
+		String vshader;
+		try{
+			vshader = readShaderSource(vertexShader);			
+		}
+		catch(FileNotFoundException e){
+			vshader = fallbackVertexShader;
+		}
+		int vShader = compileShader(vshader , GL20.GL_VERTEX_SHADER);
 		GL20.glAttachShader(program, vShader);
+		String fshader;
+		try{
+			fshader = readShaderSource(fragmentShader);			
+		}
+		catch(FileNotFoundException e){
+			fshader = fallbackFragmentShader;
+		}
 		
-		int fShader = compileShader(fragmentShader, GL20.GL_FRAGMENT_SHADER);
+		int fShader = compileShader(fshader, GL20.GL_FRAGMENT_SHADER);
 		GL20.glAttachShader(program, fShader);
 		
 		GL20.glLinkProgram(program);
@@ -102,16 +117,16 @@ public class Shader {
 	
 	
 	
-	private int compileShader(String file, int type) throws FileNotFoundException{
+	private int compileShader(String source, int type){
 		
-		String fragmentShaderSource = readShaderSource(file);
+		
 		int shader = GL20.glCreateShader(type);
-		GL20.glShaderSource(shader, fragmentShaderSource);
+		GL20.glShaderSource(shader, source);
 		GL20.glCompileShader(shader);
 		int status = GL20.glGetShader(shader, GL20.GL_COMPILE_STATUS);
 		if(status != GL11.GL_TRUE){
 			String error = GL20.glGetShaderInfoLog(shader, 255);
-			throw new ShaderCompileException("Compile Error in " + file + ": "+error);
+			throw new ShaderCompileException("Compile Error in " + ((type == GL20.GL_FRAGMENT_SHADER)? "Fragment Shader": "VertexShader") + ": "+error);
 		}
 		return shader;
 	}
@@ -131,5 +146,25 @@ public class Shader {
 		return src.toString();
 		
 	}
+	
+	String fallbackVertexShader = "attribute vec4 vPosition;" +
+								  "attribute vec4 vColor;   //in" +
+								  "attribute vec2 vTexCoord; "+
+								  "varying vec4 color;   //out" +
+								  "varying vec2 uvcoord;" +
+								  "uniform mat4 Projection; "+
+								  "uniform mat4 View;" +
+								  "void main()" +
+								  "{    gl_Position = Projection * View *vPosition; " +
+								  "	uvcoord = vTexCoord;" +
+								  "color = vColor; "+
+								  "}";
+ 
+	String fallbackFragmentShader = "varying vec4 color;  //in " +
+									"varying vec2 uvcoord;" +
+									"uniform sampler2D texture;" +
+									"void main(){" +
+									"gl_FragColor =  texture2D(texture, uvcoord);} ";
+
 	
 }
