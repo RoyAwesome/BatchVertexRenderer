@@ -16,7 +16,7 @@ public class Mat2ShaderVariable extends ShaderVariable {
 	@Override
 	public void assign() {
 		FloatBuffer buff = FloatBuffer.allocate(2);
-		value.load(buff);
+		value.store(buff);
 		buff.flip();
 		
 		GL20.glUniformMatrix2(location, false, buff);

@@ -12,15 +12,16 @@ public class Mat4ShaderVariable extends ShaderVariable {
 	public Mat4ShaderVariable(int program, String name, Matrix4f value) {
 		super(program, name);
 		this.value = value;
+		
 	}
 
 	@Override
 	public void assign() {
 		FloatBuffer buff = BufferUtils.createFloatBuffer(4*4);
-		value.load(buff);
+		value.store(buff);
 		buff.flip();
 		
-		GL20.glUniformMatrix3(location, false, buff);
+		GL20.glUniformMatrix4(location, false, buff);
 
 	}
 

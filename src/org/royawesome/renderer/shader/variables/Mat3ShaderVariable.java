@@ -14,7 +14,7 @@ public class Mat3ShaderVariable extends ShaderVariable {
 	@Override
 	public void assign() {
 		FloatBuffer buff = FloatBuffer.allocate(3*3);
-		value.load(buff);
+		value.store(buff);
 		buff.flip();
 		
 		GL20.glUniformMatrix3(location, false, buff);

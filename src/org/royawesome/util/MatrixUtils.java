@@ -32,14 +32,15 @@ public class MatrixUtils {
 	
 	public static Matrix4f createOrthographic(float right, float left, float top, float bottom, float near, float far){
 		Matrix4f ortho = new Matrix4f();
-		float tx = -(right+left) / (right-left);
-		float ty = -(top + bottom) / (top - bottom);
-		float tz = -(far+near) / (far - near);
+		float tx = -((right+left) / (right-left));
+		float ty = -((top + bottom) / (top - bottom));
+		float tz = -((far+near) / (far - near));
 		
 		ortho.setIdentity();
 		ortho.m00 = 2.0f / (right-left);
 		ortho.m11 = 2.0f / (top-bottom);
 		ortho.m22 = -2.0f/ (far-near);
+		
 		ortho.m30 = tx;
 		ortho.m31 = ty;
 		ortho.m32 = tz;
