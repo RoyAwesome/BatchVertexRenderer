@@ -1,15 +1,17 @@
 package org.royawesome.renderer.test;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 
 import org.lwjgl.LWJGLException;
 import org.lwjgl.opengl.Display;
 import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.GLU;
+
 import org.lwjgl.util.vector.Matrix4f;
+import org.newdawn.slick.opengl.*;
+import org.newdawn.slick.util.ResourceLoader;
 import org.royawesome.renderer.*;
-import org.royawesome.renderer.shader.BasicShader;
-import org.royawesome.renderer.shader.Shader;
+import org.royawesome.renderer.shader.*;
 import org.royawesome.util.MatrixUtils;
 
 
@@ -28,7 +30,13 @@ public class BatchVertexTester {
 	}
 
 	// init OpenGL here
-    
+        Texture tex = null;
+    try {
+		tex = TextureLoader.getTexture("PNG", ResourceLoader.getResourceAsStream("atlastest64.png"));
+	} catch (IOException e1) {
+		// TODO Auto-generated catch block
+		e1.printStackTrace();
+	};
 	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_POLYGON);
 	BasicShader shader = null;
 	try {
@@ -40,16 +48,27 @@ public class BatchVertexTester {
 	}
 	shader.setProjectionMatrix(MatrixUtils.createOrthographic(1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 1.0f));
 	shader.setViewMatrix(new Matrix4f());
+	shader.SetUniform("texture", tex);
 	renderer.setShader(shader);
 	renderer.enableColors();
+	renderer.enableTextures();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
+		renderer.AddTexCoord(0.0f, 0.0f);
 		renderer.AddVertex(.5f, .5f);
+		
+		
 		renderer.AddColor(0.0f, 1.0f, 0.0f);
+		renderer.AddTexCoord(1.0f, 0.0f);
 		renderer.AddVertex(-.5f, .5f);
+		
+		
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
+		renderer.AddTexCoord(1.0f, 1.0f);
 		renderer.AddVertex(-.5f, -.5f);
+		
 		renderer.AddColor(0.0f, 0.0f, 1.0f);
+		renderer.AddTexCoord(1.0f, 0.0f);
 		renderer.AddVertex(.5f, -.5f);
 		
 	renderer.end();

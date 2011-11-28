@@ -38,7 +38,6 @@ public abstract class BatchVertexRenderer {
 	TFloatArrayList vertexBuffer = new TFloatArrayList();
 	TFloatArrayList colorBuffer = new TFloatArrayList();
 	TFloatArrayList normalBuffer = new TFloatArrayList();
-	ArrayList<Texture> textureBuffer = new ArrayList<Texture>();
 	TFloatArrayList uvBuffer = new TFloatArrayList();
 	
 	
@@ -65,7 +64,7 @@ public abstract class BatchVertexRenderer {
 		colorBuffer.clear();
 		normalBuffer.clear();
 		uvBuffer.clear();
-		textureBuffer.clear();
+		
 		
 		numVerticies = 0;
 	}
@@ -221,6 +220,10 @@ public abstract class BatchVertexRenderer {
 	
 	public void enableNormals(){
 		useNormals = true;
+	}
+	
+	public void enableTextures(){
+		useTextures = true;
 	}
 	
 }
