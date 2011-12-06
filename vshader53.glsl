@@ -19,7 +19,7 @@ void main()
     // Transform vertex  position into eye coordinates
     
 	color = vColor;
-    gl_Position = Projection * ModelView * vPosition;
+    gl_Position = Projection * View * vPosition;
 
    
 }
