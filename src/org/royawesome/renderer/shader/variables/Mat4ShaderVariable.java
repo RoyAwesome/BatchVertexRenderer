@@ -15,6 +15,10 @@ public class Mat4ShaderVariable extends ShaderVariable {
 		
 	}
 
+	public Matrix4f get(){
+		return value;
+	}
+	
 	@Override
 	public void assign() {
 		FloatBuffer buff = BufferUtils.createFloatBuffer(4*4);

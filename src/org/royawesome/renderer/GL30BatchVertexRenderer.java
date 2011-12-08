@@ -14,11 +14,8 @@ public class GL30BatchVertexRenderer extends BatchVertexRenderer {
 	int vao;
 	int vbos = -1;
 	
-
 	
-	//Using FloatArrayList because I need O(1) access time
-	//and fast ToArray()
-	TFloatArrayList buffer = new TFloatArrayList();
+	
 	
 	
 	/**

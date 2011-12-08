@@ -1,5 +1,6 @@
 package org.royawesome.renderer;
 import org.lwjgl.opengl.*;
+import org.royawesome.renderer.shader.BasicShader;
 
 public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 	
@@ -14,9 +15,11 @@ public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 	
 
 	protected void doFlush(){
-
+		if(!(activeShader instanceof BasicShader)) throw new IllegalStateException("Need Basic Shader in 1.1 mode");
 			
 		GL11.glNewList(displayList, GL11.GL_COMPILE);
+		((BasicShader)activeShader).assign(true);
+		GL11.glPushMatrix();
 		GL11.glBegin(renderMode);
 		for(int i = 0; i < numVerticies; i+= 1){
 			int index = i *4;
@@ -26,6 +29,7 @@ public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 			GL11.glVertex4f(vertexBuffer.get(index), vertexBuffer.get(index+1), vertexBuffer.get(index+2), vertexBuffer.get(index+3));
 		}
 		GL11.glEnd();
+		GL11.glPopMatrix();
 		GL11.glEndList();
 		
 	}
@@ -35,8 +39,9 @@ public class GL11BatchVertexRenderer extends BatchVertexRenderer {
 	@Override
 	public void doRender() {
 		
-		
+		GL11.glPushMatrix();
 		GL11.glCallList(displayList);
+		GL11.glPopMatrix();
 		
 		
 	}
