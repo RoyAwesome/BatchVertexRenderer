@@ -74,8 +74,8 @@ public class BatchTesselator implements MinecraftTessellator {
     }
 
     public void startDrawing(int drawMode) {
-        renderer.renderMode = drawMode;
         renderer.begin();
+        renderer.renderMode = drawMode;
     }
 
     public void setBrightness(int brightness) {
