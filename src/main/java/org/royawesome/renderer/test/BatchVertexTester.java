@@ -8,6 +8,7 @@ import org.lwjgl.opengl.DisplayMode;
 import org.lwjgl.opengl.GL11;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 import org.newdawn.slick.opengl.*;
 import org.newdawn.slick.util.ResourceLoader;
 import org.royawesome.renderer.*;
@@ -40,11 +41,12 @@ public class BatchVertexTester {
 	BatchVertexRenderer renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_POLYGON);
 	BasicShader shader = new BasicShader();
 	
-	shader.setProjectionMatrix(MatrixUtils.createOrthographic(1.0f, -1.0f, 1.0f, -1.0f, 0.0f, 1.0f));
-	shader.setViewMatrix(new Matrix4f());
+	shader.setProjectionMatrix(MatrixUtils.createPerspective(45, 4.f/3.f, .0f, 100f));
+	shader.setViewMatrix(MatrixUtils.createLookAt(new Vector3f(5,0,5), new Vector3f(0,0,0), new Vector3f(0,1,0)));
 	shader.SetUniform("texture", tex);
 	renderer.setShader(shader);
 	renderer.enableColors();
+
 	renderer.enableTextures();
 	renderer.begin();
 		renderer.AddColor(1.0f, 0.0f, 0.0f);
