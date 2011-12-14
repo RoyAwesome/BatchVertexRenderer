@@ -54,7 +54,8 @@ public class BatchTesselator implements MinecraftTessellator {
 
     private float tz = 0;
 
-    public BatchTesselator(BatchVertexRenderer renderer) {
+    public BatchTesselator() {
+    	this.renderer = BatchVertexRenderer.constructNewBatch(GL11.GL_QUADS);
         colorEnabled = renderer.useColors;
         texturesEnabled = renderer.useTextures;
         normalsEnabled = renderer.useNormals;
