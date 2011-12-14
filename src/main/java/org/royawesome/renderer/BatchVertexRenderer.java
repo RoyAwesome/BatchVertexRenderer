@@ -23,7 +23,7 @@ public abstract class BatchVertexRenderer {
 	public static BatchVertexRenderer constructNewBatch(int renderMode){
 		if(GLMode == BatchModes.GL11) return new GL11BatchVertexRenderer(renderMode);
 		if(GLMode == BatchModes.GL30) return new GL30BatchVertexRenderer(renderMode);
-		throw new IllegalStateException("GL Mode:" + GLMode + " Not reconized");
+		throw new IllegalArgumentException("GL Mode:" + GLMode + " Not reconized");
 	}
 	
 	
