@@ -1,8 +1,53 @@
 package org.royawesome.util;
 
 import org.lwjgl.util.vector.Matrix4f;
+import org.lwjgl.util.vector.Vector3f;
 
 public class MatrixUtils {
+	
+	public static Matrix4f createLookAt(Vector3f center, Vector3f at, Vector3f up){
+		Vector3f f = new Vector3f();
+		Vector3f.sub(center, at, f);
+		f = (Vector3f) f.normalise();
+		
+		up = (Vector3f) up.normalise();
+		
+		Vector3f s = new Vector3f();
+		Vector3f u = new Vector3f();
+		
+		Vector3f.cross(f, up, s);
+		Vector3f.cross(s, f, u);
+		
+
+		
+		Matrix4f mat = new Matrix4f();
+		mat.setIdentity();
+		mat.m00 = s.x;
+		mat.m01 = s.y;
+		mat.m02 = s.z;
+		mat.m03 = 0;
+		
+		mat.m10 = u.x;
+		mat.m11 = u.y;
+		mat.m12 = u.z;
+		mat.m13 = 0;
+		
+		mat.m20 = -f.x;
+		mat.m21 = -f.y;
+		mat.m22 = -f.z;
+		mat.m23 = 0;
+		
+		mat.translate(center);
+		
+		return mat;
+		
+		
+		
+		
+		
+		
+	}
+	
 	public static Matrix4f createPerspective(float fov, float aspect, float znear, float zfar) {
 
 		float ymax, xmax;
