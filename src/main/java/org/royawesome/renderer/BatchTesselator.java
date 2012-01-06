@@ -1,7 +1,7 @@
 /*
  * To change this template, choose Tools | Templates
  * and open the template in the editor.
- */
+ 
 package org.royawesome.renderer;
 
 import java.nio.ByteOrder;
@@ -9,10 +9,10 @@ import org.lwjgl.opengl.GL11;
 import org.lwjgl.util.vector.Vector3f;
 import org.spoutcraft.spoutcraftapi.gui.MinecraftTessellator;
 
-/**
+*//**
  *
  * @author simplyianm
- */
+ *//*
 public class BatchTesselator implements MinecraftTessellator {
 
     private BatchVertexRenderer renderer;
@@ -158,3 +158,4 @@ public class BatchTesselator implements MinecraftTessellator {
     }
 
 }
+*/
